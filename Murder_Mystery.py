@@ -65,13 +65,21 @@ def frequency_comparison(table1, table2):
     score = mutual_appearances / appearances
     return score
 
-def percent_difference(value1, value2):
+def percent_difference(sample1, sample2):
+    value1 = sample1.average_sentence_length
+    value2 = sample2.average_sentence_length
     difference = abs(value1 - value2)
     average = (value1 + value2) / 2
     output = difference / average
     return output
 
 def find_text_similarity(textsample1, textsample2):
+    sentence_length_difference = percent_difference(textsample1, textsample2)
+    sentence_length_similarity = abs(1 - sentence_length_difference)
+    word_count_similarity = frequency_comparison(textsample1.word_count_frequency, textsample2.word_count_frequency)
+    ngram_similarity = frequency_comparison(textsample1.ngram_frequency, textsample2.ngram_frequency)
+    similarity_score = ( sentence_length_similarity + word_count_similarity + ngram_similarity ) / 3
+    return similarity_score
 
 class TextSample():
     def __init__(self, text, author):
@@ -92,4 +100,6 @@ murderer_sample = TextSample(murder_note, "Unknown")
 lily_sample = TextSample(lily_trebuchet_intro, "Lily Trebuchet")
 myrtle_sample = TextSample(myrtle_beech_intro, "Myrtle Beech")
 gregg_sample = TextSample(gregg_t_fishy_intro, "Gregg T. Fishy")
-print(murderer_sample)
+print("Name : {} \n Similarity Score : {}".format(lily_sample.author, find_text_similarity(murderer_sample, lily_sample)))
+print("Name : {} \n Similarity Score : {}".format(myrtle_sample.author, find_text_similarity(murderer_sample, myrtle_sample)))
+print("Name : {} \n Similarity Score : {}".format(gregg_sample.author, find_text_similarity(murderer_sample, gregg_sample)))
