@@ -37,6 +37,42 @@ def build_frequency_table(corpus):
             frequency_table[word] = 1
     return frequency_table
 
+def ngram_creator(text_list):
+    ngram_list = []
+    for i in range(len(text_list)-1):
+        ngram = text_list[i] + ' ' + text_list[i+1]
+        ngram_list.append(ngram)
+    return ngram_list
+
+def frequency_comparison(table1, table2):
+    appearances = 0
+    mutual_appearances = 0
+    for key in table1.keys():
+        if key in table2.keys():
+            if table1[key] > table2[key]:
+                mutual_appearances += table2[key]
+                appearances += table1[key]
+            elif table1[key] < table2[key]:
+                mutual_appearances += table1[key]
+                appearances += table2[key]
+            # else:
+
+        else:
+            appearances += table1[key]
+    for key in table2.keys():
+        if key not in table1.keys():
+            appearances += table2[key]
+    score = mutual_appearances / appearances
+    return score
+
+def percent_difference(value1, value2):
+    difference = abs(value1 - value2)
+    average = (value1 + value2) / 2
+    output = difference / average
+    return output
+
+def find_text_similarity(textsample1, textsample2):
+
 class TextSample():
     def __init__(self, text, author):
         if isinstance(text, str) and isinstance(author, str):
@@ -47,6 +83,7 @@ class TextSample():
         self.average_sentence_length = get_average_sentence_length(self.raw_text)
         self.prepared_text = prepare_text(text)
         self.word_count_frequency = build_frequency_table(self.prepared_text)
+        self.ngram_frequency = build_frequency_table(ngram_creator(self.prepared_text))
 
     def __repr__(self):
         return "Author : {} \n Average Sentence Length : {}".format(self.author, self.average_sentence_length)
@@ -55,3 +92,4 @@ murderer_sample = TextSample(murder_note, "Unknown")
 lily_sample = TextSample(lily_trebuchet_intro, "Lily Trebuchet")
 myrtle_sample = TextSample(myrtle_beech_intro, "Myrtle Beech")
 gregg_sample = TextSample(gregg_t_fishy_intro, "Gregg T. Fishy")
+print(murderer_sample)
