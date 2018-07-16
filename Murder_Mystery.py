@@ -87,7 +87,7 @@ class TextSample():
             self.raw_text = text
             self.author = author
         else:
-            raise exception
+            raise InvalidType
         self.average_sentence_length = get_average_sentence_length(self.raw_text)
         self.prepared_text = prepare_text(text)
         self.word_count_frequency = build_frequency_table(self.prepared_text)
@@ -95,6 +95,9 @@ class TextSample():
 
     def __repr__(self):
         return "Author : {} \n Average Sentence Length : {}".format(self.author, self.average_sentence_length)
+
+class InvalidType(Exception):
+    """Invalid Input"""
 
 murderer_sample = TextSample(murder_note, "Unknown")
 lily_sample = TextSample(lily_trebuchet_intro, "Lily Trebuchet")
