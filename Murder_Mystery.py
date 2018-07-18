@@ -7,10 +7,16 @@ myrtle_beech_intro = """Salutations. My name? Myrtle. Myrtle Beech. I am a woman
 gregg_t_fishy_intro = """ most good day to you all, I am Gregg T. Fishy, of the Fishy Enterprise fortune. I am 37 years young, an adventurous spirit and I've never lost my sense of childlike wonder. I do love to be in the backyard gardening and I have the most extraordinary time when I'm fishing. Fishing for what, you might find yourself asking? Why, I happen to always be fishing for compliments of course! I have a stunning pair of radiant blue eyes that will pierce the soul of anyone who dare gaze upon my countenance. I quite enjoy going on long jaunts through garden paths and short walks through greenhouses. I hope that Jay will be as absolutely interesting as he appears on the television, I find that he has some of the most curious tastes in style and humor. When I'm out and about I quite enjoy hearing tales that instill in my heart of hearts the fascination that beguiles my every day life, every fiber of my being scintillates and vascillates with extreme pleasure during one of these charming anecdotes and significantly pleases my beautiful personage. I cannot wait to enjoy being on the television program A Jay To Remember, it certainly seems like a grand time to explore life and love."""
 
 def get_average_sentence_length(text) :
-    sentences_in_text = text.split(".")
-    total_no_of_sentences = len(sentences_in_text)
-    sum = 0
+    text_without_exclamation = text.replace('!', '.')
+    clean_text = text_without_exclamation.replace('?', '.')
+    sentences_in_text = clean_text.split(".")
+    clean_sentences = []
     for sentence in sentences_in_text:
+        if sentence != ' ':
+            clean_sentences.append(sentence)
+    total_no_of_sentences = len(clean_sentences)
+    sum = 0
+    for sentence in clean_sentences:
         words_in_sentence = sentence.split(' ')
         sum += len(words_in_sentence)
     average_sentence_length = sum / total_no_of_sentences
